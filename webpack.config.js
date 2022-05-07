@@ -44,7 +44,12 @@ module.exports = {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')
     },
-    
+    resolve: {
+        extensions: ['.js', '.ts', 'scss'],
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+        }
+    },
     optimization: optimization(),
     devServer: {
         port: 9000,
