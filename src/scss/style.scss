@@ -1,3 +1,63 @@
-body {
-    background-color: blue;
+.keyboard {
+    width: 100%;
+    padding: 5px 0;
+    background: rgba(41, 41, 41, 0.2);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    user-select: none;
+}
+
+.keyboard__keys {
+    text-align: center;
+}
+
+.keyboard__key {
+    height: 45px;
+    width: 6%;
+    max-width: 90px;
+    margin: 1px;
+
+    border: none;
+    border-radius: 5px;
+    background: rgba(41, 41, 41, 0.4);
+    color: #ffff;
+    font-size: 1.05rem;
+
+    outline: none;
+    cursor: pointer;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    &:active {
+        background: rgba(24, 223, 90, 0.267);
+    }
+}
+
+.keyboard__key--double-sign::before {
+    content: '!';
+    top: 5px;
+    left: 5px;
+    position: absolute;
+    font-size: 0.8rem;
+}
+
+.keyboard__key--special {
+    background: rgba(41, 41, 41, 0.7);
+}
+
+.keyboard__key--special-wide {
+    width: 15%;
+    background: rgba(41, 41, 41, 0.7);
+}
+
+.keyboard__key--arrow {
+    background: rgba(41, 41, 41, 0.7);
+}
+
+.keyboard__key--space {
+    width: 50%;
+    max-width: 500px;
 }
