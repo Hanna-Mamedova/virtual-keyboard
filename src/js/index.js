@@ -12,7 +12,6 @@ const Keyboard = {
 
     eventHandlers: {
         oninput: null,
-        onclose: null
     },
 
     properties: {
@@ -31,9 +30,16 @@ const Keyboard = {
         this.elements.keysContainer.classList.add('keyboard__keys');
         this.elements.keysContainer.append(this.createKeys());
 
+        this.elements.keys = this.elements.keysContainer.querySelectorAll(".keyboard__key")
+
         // Add to DOM
         this.elements.main.append(this.elements.keysContainer);
         document.body.append(this.elements.main);
+
+        // Add use keyboard for elements
+        this.open('', function (currentValue) {
+            document.querySelector("textarea").value = currentValue;
+        });
     },
 
     // CREATE KEYS
@@ -44,7 +50,7 @@ const Keyboard = {
             "Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "DEL",
             "Caps Lock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "ENTER",
             "ShiftLeft", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "up", "ShiftRight",
-            "Ctrl", "Win", "Alt", "space", "Alt", "Ctrl", "left", "down", "right",
+            "Ctrl", "Win", "Alt", "space", "Alt", "left", "down", "right", "Ctrl"
         ];
 
         // Looping the keylayout
@@ -207,6 +213,7 @@ const Keyboard = {
 
                     default:
                         KEY_ELEMENT.textContent = key.toLowerCase();
+                        KEY_ELEMENT.classList.add("changeCase");
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
@@ -228,16 +235,30 @@ const Keyboard = {
 
     // TRIGGER EVENT
     triggerEvent(handlerName) {
-        console.log("Event triggered:" + handlerName);
+        if(typeof this.eventHandlers[handlerName] == "function") {
+            this.eventHandlers[handlerName](this.properties.value);
+        }
     },
 
     // CAPSLOCK HANDLER
     toggleCapsLock() {
-        console.log("CapsLock Toggled");
+        this.properties.capsLock = !this.properties.capsLock;
+
+        for (const key of this.elements.keys) {
+            if (key.classList.contains("changeCase")) {
+                key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+            }
+        }
+    },
+
+    open(initialValue, oninput) {
+        this.properties.value = initialValue || "";
+        this.eventHandlers.oninput = oninput;
     }
-}
+};
 
 window.onload = () => {
+    // TITLE
     createTextNode('TITLE', 'h1', `VIRTUAL KEYBOARD`);
 
     // TEXTAREA
@@ -246,6 +267,7 @@ window.onload = () => {
     // KEYBOARD
     Keyboard.init();
 
+    // SUBTITLES
     createTextNode('SUBTITLE', 'h3', `Keyboard created on Windows`);
     createTextNode('LANGUAGE', 'h3', `For language switch: shift + alt`);
     createTextNode('LANGUAGE_NOW', 'h3', `Language now:`);
