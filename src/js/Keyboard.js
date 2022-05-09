@@ -1,5 +1,6 @@
 import { keyLayoutENG } from "./keyLayoutENG";
-// import { keyLayoutRUS } from "./keyLayoutRUS";
+import { keyLayoutRUS } from "./keyLayoutRUS";
+// import { Key } from  "./DefaultKey";
 
 export class Keyboard {
     constructor() {
@@ -42,10 +43,17 @@ export class Keyboard {
     // CREATE KEYS
     createKeys() {
         const FRAGMENT = document.createDocumentFragment();
+        let keyLayout = [];
+
+        // Check language to choose correct keyLayout
+        if(this.language == 'eng') {
+            keyLayout = keyLayoutENG;
+        } else if (this.language == 'rus') {
+            keyLayout = keyLayoutRUS;
+        }
 
         // Looping the keylayout
-
-        keyLayoutENG.forEach(key => {
+        keyLayout.forEach(key => {
             const KEY_ELEMENT = document.createElement('button');
             const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight", "&#9658;"].indexOf(key) !== -1;
 
@@ -72,7 +80,7 @@ export class Keyboard {
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             this.value += "    ";
-                            this.triggerEvent("oninput");
+                            this.triggerEvent(this.oninput);
                         });
     
                     break;
@@ -85,7 +93,7 @@ export class Keyboard {
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             // this.value = this.value.substring(0, this.properties.value - 1);
-                            this.triggerEvent("oninput");
+                            this.triggerEvent(this.oninput);
                         });
     
                         break;
@@ -107,7 +115,7 @@ export class Keyboard {
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             this.value += "\n";
-                            this.triggerEvent("oninput");
+                            this.triggerEvent(this.oninput);
                         });
     
                     break;
@@ -130,7 +138,7 @@ export class Keyboard {
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             this.value += " ";
-                            this.triggerEvent("oninput");
+                            this.triggerEvent(this.oninput);
                         });
     
                     break;
@@ -206,8 +214,10 @@ export class Keyboard {
                     break;
             }
 
+            // Add each keyElement to fragment
             FRAGMENT.append(KEY_ELEMENT);
 
+            // Add line break after keyElement
             if(INSERT_lINEBREAK) {
                 FRAGMENT.append(document.createElement("br"));
             }
