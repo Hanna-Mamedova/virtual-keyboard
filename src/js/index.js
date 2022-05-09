@@ -3,6 +3,7 @@ import '../scss/style.scss';
 
 import { Keyboard } from './Keyboard';
 
+const KEYBOARD = new Keyboard();
 
 window.onload = () => {
     // TITLE
@@ -12,7 +13,7 @@ window.onload = () => {
     createTextarea();
     
     // KEYBOARD
-    Keyboard.init();
+    KEYBOARD.init();
 
     // SUBTITLES
     createTextNode('SUBTITLE', 'h3', `Keyboard created on Windows`);
@@ -32,7 +33,7 @@ function createTextarea() {
 
     const TEXTAREA = document.createElement('textarea');
     TEXTAREA.name = 'textarea';
-    TEXTAREA.className = 'textarea';
+    TEXTAREA.className = 'textarea use-keyboard-input';
     TEXTAREA.cols = 50;
     TEXTAREA.rows = 10;
 
