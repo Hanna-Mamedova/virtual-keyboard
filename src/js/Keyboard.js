@@ -1,6 +1,6 @@
 import { keyLayoutENG } from "./keyLayoutENG";
 import { keyLayoutRUS } from "./keyLayoutRUS";
-// import { Key } from  "./DefaultKey";
+import { Key } from  "./DefaultKey";
 
 export class Keyboard {
     constructor() {
@@ -54,16 +54,35 @@ export class Keyboard {
 
         // Looping the keylayout
         keyLayout.forEach(key => {
-            const KEY_ELEMENT = document.createElement('button');
+
+            // create a key
+            const KEY = new Key();
+            KEY.init();
+            
+            const KEY_ELEMENT = KEY.keyElement;
+
             const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight", "&#9658;"].indexOf(key) !== -1;
 
-            // Add attributes/classes
-            KEY_ELEMENT.setAttribute("type", "button");
-            KEY_ELEMENT.classList.add("keyboard__key");
 
+            //Add effect of pressing a key on a physical keyboard highlights the key on the virtual keyboard
+
+            // ДОСМОТРЕТЬ ПОДСВЕТКУ СПЕЦ КЛАВИШ -  после Special Key
+            window.addEventListener('keydown', (e) => {
+                if(e.key == KEY_ELEMENT.innerHTML) {
+                    KEY_ELEMENT.classList.add('keyboard__key--active');
+                }
+            })
+
+            window.addEventListener('keyup', (e) => {
+                if(e.key == KEY_ELEMENT.innerHTML) {
+                    KEY_ELEMENT.classList.remove('keyboard__key--active');
+                }
+            })
+
+            // Add styles and listeners to keys
             switch (key) {
                 case "Backspace":
-                    KEY_ELEMENT.classList.add("keyboard__key--special-wide");
+                    KEY_ELEMENT.classList.add("keyboard__key-special-wide");
                     KEY_ELEMENT.innerHTML = "Backspace";
 
                     KEY_ELEMENT.addEventListener("click", () => {
@@ -74,7 +93,7 @@ export class Keyboard {
                     break;
 
                 case "Tab":
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
                         KEY_ELEMENT.innerHTML = "Tab";
 
     
@@ -88,7 +107,7 @@ export class Keyboard {
                     // ADD EVENTLISTENER TO DELETE!!!
 
                 case "DEL":
-                    KEY_ELEMENT.classList.add("keyboard__key--special");
+                    KEY_ELEMENT.classList.add("keyboard__key-special");
                     KEY_ELEMENT.innerHTML = "DEL";
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -99,7 +118,7 @@ export class Keyboard {
                         break;
 
                 case "Caps Lock":
-                    KEY_ELEMENT.classList.add("keyboard__key--special-wide");
+                    KEY_ELEMENT.classList.add("keyboard__key-special-wide");
                     KEY_ELEMENT.innerHTML = "Caps Lock";
 
                     KEY_ELEMENT.addEventListener("click", () => {
@@ -110,7 +129,7 @@ export class Keyboard {
                     break;
 
                     case "ENTER":
-                        KEY_ELEMENT.classList.add("keyboard__key--special-wide");
+                        KEY_ELEMENT.classList.add("keyboard__key-special-wide");
                         KEY_ELEMENT.innerHTML = "ENTER";
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -123,7 +142,7 @@ export class Keyboard {
                         // ADD EVENTLISTENER TO SHIFT!!!
                     case "ShiftRight":
                     case "ShiftLeft":
-                    KEY_ELEMENT.classList.add("keyboard__key--special-wide");
+                    KEY_ELEMENT.classList.add("keyboard__key-special-wide");
                     KEY_ELEMENT.innerHTML = "Shift";
 
                     KEY_ELEMENT.addEventListener("click", () => {
@@ -134,7 +153,7 @@ export class Keyboard {
                     break;
 
                     case "space":
-                        KEY_ELEMENT.classList.add("keyboard__key--space");
+                        KEY_ELEMENT.classList.add("keyboard__key-space");
     
                         KEY_ELEMENT.addEventListener("click", () => {
                             this.value += " ";
@@ -147,7 +166,7 @@ export class Keyboard {
 
                     case "up":
                         KEY_ELEMENT.innerHTML = "&#9650;"
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
 
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -158,7 +177,7 @@ export class Keyboard {
 
                     case "down":
                         KEY_ELEMENT.innerHTML = "&#9660;"
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
 
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -169,7 +188,7 @@ export class Keyboard {
 
                     case "left":
                         KEY_ELEMENT.innerHTML = "&#9668;"
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
 
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -180,7 +199,7 @@ export class Keyboard {
 
                     case "right":
                         KEY_ELEMENT.innerHTML = "&#9658;"
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
 
     
                         KEY_ELEMENT.addEventListener("click", () => {
@@ -193,7 +212,7 @@ export class Keyboard {
                     case "Win":
                     case "Alt":
                         KEY_ELEMENT.textContent = key.toLowerCase();
-                        KEY_ELEMENT.classList.add("keyboard__key--special");
+                        KEY_ELEMENT.classList.add("keyboard__key-special");
 
     
                         KEY_ELEMENT.addEventListener("click", () => {

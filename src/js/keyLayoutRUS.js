@@ -3,6 +3,6 @@ export const keyLayoutRUS = [
     "Tab", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "\\", "DEL", 
     "Caps Lock", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "ENTER",
     "ShiftLeft", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", ".", "up", "ShiftRight",
-    "Ctrl", "Win", "Alt", "space", "Alt", "left", "down", "right", "Ctrl"
+    "CtrlLeft", "Win", "AltLeft", "space", "AltRight", "left", "down", "right", "CtrlRight"
   ];
   

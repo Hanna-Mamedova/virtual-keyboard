@@ -56,7 +56,11 @@ h3 {
     }
 }
 
-.keyboard__key--double-sign::before {
+.keyboard__key--active {
+    background: rgba(24, 223, 90, 0.267) !important;
+}
+
+.keyboard__key-double-sign::before {
     content: '!';
     top: 5px;
     left: 5px;
@@ -64,21 +68,21 @@ h3 {
     font-size: 0.8rem;
 }
 
-.keyboard__key--special {
+.keyboard__key-special {
     width: 6%;
     background: rgba(41, 41, 41, 0.7);
 }
 
-.keyboard__key--special-wide {
+.keyboard__key-special-wide {
     width: 15%;
     background: rgba(41, 41, 41, 0.7);
 }
 
-.keyboard__key--arrow {
+.keyboard__key-arrow {
     background: rgba(41, 41, 41, 0.7);
 }
 
-.keyboard__key--space {
+.keyboard__key-space {
     width: 42%;
     max-width: 500px;
 }
