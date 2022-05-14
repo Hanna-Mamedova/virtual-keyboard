@@ -1,9 +1,7 @@
 export class Key {
-    constructor() {
+    constructor(value) {
         this.keyElement = '';
-        this.value = '';
-        this.capsLock = false;
-        this.shift = false;
+        this.value = value;
     }
 
     //Initialize a key
@@ -14,16 +12,21 @@ export class Key {
         }
     
     isActive() {
-        this.keyElement.classList('keyboard__key--active');
+        this.keyElement.classList.add('keyboard__key--active');
         }
 
     removeActive() {
         this.keyElement.classList.remove('keyboard__key--active');
         }
 
-    createSpecialKey(classes, text) {
+    createSpecialKey(classes, text, value) {
         this.keyElement.classList.add(...classes);
         this.keyElement.innerHTML = text;
+        this.value = value;
+    }
+
+    onCapsLock(capsLock) {
+        this.keyElement.classList.toggle('keyboard__key--active', capsLock);
     }
 }
 
