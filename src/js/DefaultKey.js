@@ -1,7 +1,10 @@
+import { SHIFT_CHANGE_SYMBOLS, SHIFT_CHANGED_SYMBOLS } from './keyLayoutENG'
+
 export class Key {
     constructor(value) {
         this.keyElement = '';
         this.value = value;
+        this.shift = 'false';
     }
 
     //Initialize a key
@@ -25,8 +28,12 @@ export class Key {
         this.value = value;
     }
 
-    onCapsLock(capsLock) {
-        this.keyElement.classList.toggle('keyboard__key--active', capsLock);
+    onShift() {
+        this.shift = !this.shift;
+        if (SHIFT_CHANGE_SYMBOLS.includes(this.value)) {
+            this.keyElement.textContent = SHIFT_CHANGED_SYMBOLS[SHIFT_CHANGE_SYMBOLS.indexOf(this.keyElement.textContent)];
+        }
     }
+
 }
 
