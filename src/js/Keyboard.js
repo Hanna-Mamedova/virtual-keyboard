@@ -4,8 +4,6 @@ import { Key } from "./DefaultKey";
 
 export class Keyboard {
     constructor() {
-        this.main = "";
-        this.keysContainer = "";
         this.keys = [];
         this.value = '';
         this.language = 'eng';
@@ -17,22 +15,22 @@ export class Keyboard {
     // INITIALIZE KEYBOARD
     init() {
         // Create main elements
-        this.main = document.createElement('div');
-        this.keysContainer = document.createElement('div');
+        const main = document.createElement('div');
+        const keysContainer = document.createElement('div');
 
         // Add classes to main elements
-        this.main.classList.add('keyboard');
-        this.keysContainer.classList.add('keyboard__keys');
+        main.classList.add('keyboard');
+        keysContainer.classList.add('keyboard__keys');
 
         //Add keys to keysContainer
-        this.keysContainer.append(this.createKeys());
+        keysContainer.append(this.createKeys());
 
         // Select all keys in keysContainer
-        this.keys = this.keysContainer.querySelectorAll(".keyboard__key")
+        this.keys = keysContainer.querySelectorAll(".keyboard__key")
 
         // Add to DOM
-        this.main.append(this.keysContainer);
-        document.body.append(this.main);
+        main.append(keysContainer);
+        document.body.append(main);
 
         // Add use keyboard for elements
         this.onInput('', function (currentValue) {
