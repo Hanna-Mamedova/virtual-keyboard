@@ -36,6 +36,7 @@ function createTextarea() {
     TEXTAREA.className = 'textarea use-keyboard-input';
     TEXTAREA.cols = 50;
     TEXTAREA.rows = 10;
+    TEXTAREA.setAttribute('autofocus', 'autofocus');
 
     TEXTAREA_CONTAINER.append(TEXTAREA)
     document.body.append(TEXTAREA_CONTAINER);
