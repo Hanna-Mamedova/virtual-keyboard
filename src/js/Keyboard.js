@@ -2,11 +2,17 @@ import { keyLayoutENG, SHIFT_CHANGE_SYMBOLS, SHIFT_CHANGED_SYMBOLS } from "./key
 import { keyLayoutRUS } from "./keyLayoutRUS";
 import { Key } from "./DefaultKey";
 
+const LANGUAGE = {
+    eng: 'eng',
+    rus: 'rus',
+}
+
 export class Keyboard {
     constructor() {
         this.keys = [];
         this.value = '';
-        this.language = 'eng';
+        this.language = LANGUAGE.eng;
+        this.keyLayout = [];
         this.capsLock = false;
         this.shift = false;
         this.oninput = null;
@@ -26,7 +32,7 @@ export class Keyboard {
         keysContainer.append(this.createKeys());
 
         // Select all keys in keysContainer
-        this.keys = keysContainer.querySelectorAll(".keyboard__key")
+        this.keys = keysContainer.querySelectorAll(".keyboard__key");
 
         // Add to DOM
         main.append(keysContainer);
@@ -34,24 +40,22 @@ export class Keyboard {
 
         // Add use keyboard for elements
         this.onInput('', function (currentValue) {
-            document.querySelector("textarea").value = currentValue;
+            console.log('currentValue', currentValue);
+            const textarea = document.querySelector("textarea"); 
+            textarea.value = currentValue;
+            textarea.focus();
         });
     }
 
     // CREATE KEYS
     createKeys() {
         const FRAGMENT = document.createDocumentFragment();
-        let keyLayout = [];
 
         // Check language to choose correct keyLayout
-        if (this.language == 'eng') {
-            keyLayout = keyLayoutENG;
-        } else if (this.language == 'rus') {
-            keyLayout = keyLayoutRUS;
-        }
+        this.keyLayout = this.language === LANGUAGE.rus ? keyLayoutRUS : keyLayoutENG;
 
         // Looping the keylayout
-        keyLayout.forEach(key => {
+        this.keyLayout.forEach(key => {
 
             // create a key
             const KEY = new Key(key);
@@ -61,19 +65,14 @@ export class Keyboard {
 
             const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight", "&#9658;"].indexOf(key) !== -1;
   
-            //Add effect of pressing a key on a physical keyboard highlights the key on the virtual keyboard
-
-            // !!! оставлять CapsLock включенным
-
             // Add styles and listeners to keys
             switch (key) {
-                // BACKSPACE
+                // BACKSPACE READY
                 case "Backspace":
-                    KEY.createSpecialKey(["keyboard__key-special-wide"], "Backspace", "Backspace")
+                    KEY.createSpecialKey(["keyboard__key-special-wide"], "Backspace", "Backspace");
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value = this.value.substring(0, this.value.length - 1);
-                        this.triggerEvent(this.oninput);
+                        this.deleteBackSpace();
                     });
 
                     break;
@@ -83,19 +82,17 @@ export class Keyboard {
                     KEY.createSpecialKey(["keyboard__key-special"], "Tab", "Tab")
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value += "    ";
-                        this.triggerEvent(this.oninput);
+                        this.tab();
                     });
 
                     break;
 
-                // ADD EVENTLISTENER TO DELETE!!!
+                // DELETE READY
                 case "Del":
                     KEY.createSpecialKey(["keyboard__key-special"], "Del", "Delete");
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        // this.value = this.value.substring(0, this.properties.value - 1);
-                        this.triggerEvent(this.oninput);
+                        this.delDelete();
                     });
 
                     break;
@@ -236,27 +233,6 @@ export class Keyboard {
                     break;
             }
 
-            // ПЕРЕДЕЛАТЬ НАЖАТИЕ КНОПОК!!!! ЧТОБЫ НЕ СРАБАТЫВАЛИ ВСЕ СРАЗУ!!!!
-
-            window.addEventListener('keydown', (e) => {
-                // console.log('Value: --', e);
-                if (e.key == KEY.value || e.code == KEY.value) {
-                    KEY.isActive();
-                }
-
-                if(e.key == 'CapsLock') {
-                    this.toggleCapsLock();
-                    console.log('CAPSLOCK--', this.capsLock);
-                }
-
-            })
-
-            window.addEventListener('keyup', () => {
-                if (KEY_ELEMENT.classList.contains('keyboard__key--active')) {
-                    KEY.removeActive();
-                }
-            })
-
 
             // Add each keyElement to fragment
             FRAGMENT.append(KEY_ELEMENT);
@@ -285,7 +261,32 @@ export class Keyboard {
         this.oninput = currentValue;
     }
 
-    onChangeCase() {
+    //BUTTONS ACTIONS
+
+    //READY
+    deleteBackSpace() {
+        const textarea = document.querySelector("textarea"); 
+        const caretPosition = textarea.selectionStart;
+        this.value = this.value.slice(0, caretPosition - 1) + this.value.slice(caretPosition);
+        this.triggerEvent(this.oninput);
+        textarea.selectionEnd = caretPosition - 1;
+    }
+
+    tab() {
+        this.value += "    ";
+        this.triggerEvent(this.oninput);
+    }
+
+    //READY
+    delDelete() {
+        const textarea = document.querySelector("textarea"); 
+        const caretPosition = textarea.selectionStart;
+        this.value = this.value.slice(0, caretPosition) + this.value.slice(caretPosition + 1);
+        this.triggerEvent(this.oninput);
+        textarea.selectionEnd = caretPosition;
+    }
+
+    changeKeyCase() {
         for (const key of this.keys) {
             if (key.classList.contains("changeCase")) {
                 key.textContent = this.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
