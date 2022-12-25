@@ -2,9 +2,9 @@ import { keyLayoutENG, SHIFT_CHANGE_SYMBOLS_ENG, SHIFT_CHANGED_SYMBOLS_ENG } fro
 import { keyLayoutRUS } from "./keyLayoutRUS";
 import { Key } from "./DefaultKey";
 
-const LANGUAGE = {
-    eng: 'eng',
-    rus: 'rus',
+enum LANGUAGE {
+    eng ='eng',
+    rus ='rus',
 }
 
 enum Arrows {
@@ -81,7 +81,6 @@ export class Keyboard {
 
             // Add styles and listeners to keys
             switch (key) {
-                // BACKSPACE READY
                 case "Backspace":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Backspace", "Backspace");
 
@@ -91,7 +90,6 @@ export class Keyboard {
 
                     break;
 
-                // TAB READY
                 case "Tab":
                     KEY.createSpecialKey(["keyboard__key-special"], "Tab", "Tab")
 
@@ -101,7 +99,6 @@ export class Keyboard {
 
                     break;
 
-                // DELETE READY
                 case "Del":
                     KEY.createSpecialKey(["keyboard__key-special"], "Del", "Delete");
 
@@ -111,7 +108,6 @@ export class Keyboard {
 
                     break;
 
-                // CAPS LOCK READY
                 case "Caps Lock":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Caps Lock", "CapsLock");
                     KEY_ELEMENT.addEventListener("click", () => {
@@ -119,7 +115,6 @@ export class Keyboard {
                     });
                     break;
 
-                // ENTER READY
                 case "Enter":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "ENTER", "Enter");
                     KEY_ELEMENT.addEventListener("click", () => {
@@ -127,7 +122,6 @@ export class Keyboard {
                     });
                     break;
 
-                // SHIFT READY
                 case "ShiftRight":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Shift", "ShiftRight");
 
@@ -152,7 +146,6 @@ export class Keyboard {
 
                     break;
 
-                // SPACE READY
                 case "Space":
                     KEY.createSpecialKey(["keyboard__key-space"], "", "Space");
 
@@ -162,69 +155,54 @@ export class Keyboard {
 
                     break;
 
-                // ADD HANDLERS TO ARROW KEYS
                 case "up":
                     KEY.createSpecialKey(["keyboard__key-special"], Arrows.up, "ArrowUp");
-
                     KEY_ELEMENT.addEventListener("click", () => {
+                        this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
-
                     break;
 
                 case "down":
                     KEY.createSpecialKey(["keyboard__key-special"], Arrows.down, "ArrowDown");
-
                     KEY_ELEMENT.addEventListener("click", () => {
-                        // KEY_ELEMENT.value += " ";
+                        this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
-
                     break;
 
                 case "left":
                     KEY.createSpecialKey(["keyboard__key-special"], Arrows.left, "ArrowLeft");
-
                     KEY_ELEMENT.addEventListener("click", () => {
-                        // KEY_ELEMENT.value += " ";
+                        this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
-
                     break;
 
                 case "right":
                     KEY.createSpecialKey(["keyboard__key-special"], Arrows.right, "ArrowRight");
-
                     KEY_ELEMENT.addEventListener("click", () => {
-                        // KEY_ELEMENT.value += " ";
+                        this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
-
                     break;
 
-                // CTRL
                 case "CtrlLeft":
                     KEY.createSpecialKey(["keyboard__key-special"], "ctrl", "ControlLeft");
-
                     break;
 
                 case "CtrlRight":
                     KEY.createSpecialKey(["keyboard__key-special"], "ctrl", "ControlRight");
-
                     break;
 
-                // ALT
                 case "AltLeft":
                     KEY.createSpecialKey(["keyboard__key-special"], "alt", "AltLeft");
-
                     break;
 
                 case "AltRight":
                     KEY.createSpecialKey(["keyboard__key-special"], "alt", "AltRight");
-
                     break;
 
                 case "Win":
                     KEY.createSpecialKey(["keyboard__key-special"], "win", "Meta");
                     break;
 
-                // DEFAULT KEYS 
                 default:
                     KEY.value = key.toLowerCase();
 
@@ -237,8 +215,9 @@ export class Keyboard {
                     }
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value += this.capsLockOn ? key.toUpperCase() : key.toLowerCase();
-                        this.triggerEvent(this.oninput);
+                        this.capsLockOn && !this.shiftOn
+                            ? this.ordinaryKey(key.toUpperCase())
+                            : this.ordinaryKey(key.toLowerCase());
                     });
 
                     break;
@@ -246,7 +225,6 @@ export class Keyboard {
 
             // Add each keyElement to fragment
             FRAGMENT.append(KEY_ELEMENT);
-
             // Add line break after keyElement
             if (INSERT_lINEBREAK) {
                 FRAGMENT.append(document.createElement("br"));
@@ -269,8 +247,6 @@ export class Keyboard {
     }
 
     //BUTTONS ACTIONS
-
-    //READY
     deleteBackSpace() {
         const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
@@ -279,7 +255,6 @@ export class Keyboard {
         textarea.selectionEnd = caretPosition - 1;
     }
 
-    //READY
     tab() {
         const tabEl = "    ";
         const caretPositionChange = 4;
@@ -287,7 +262,6 @@ export class Keyboard {
         this.triggerEvent(this.oninput);
     }
 
-    //READY
     delDelete() {
         const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
@@ -296,7 +270,6 @@ export class Keyboard {
         textarea.selectionEnd = caretPosition;
     }
 
-    // READY
     capsLock(key: Key) {
         this.capsLockOn = !this.capsLockOn;
         if (this.capsLockOn) {
@@ -307,7 +280,6 @@ export class Keyboard {
         this.changeKeyCase();
     }
 
-    //READY
     enter() {
         const enterEl = "\n";
         const caretPositionChange = 1;
@@ -315,7 +287,6 @@ export class Keyboard {
         this.triggerEvent(this.oninput);
     }
 
-    //READY
     space() {
         const spaceEl = ' ';
         const caretPositionChange = 1;
@@ -323,10 +294,9 @@ export class Keyboard {
         this.triggerEvent(this.oninput);
     }
 
-    arrow() {
-        const arrowEl = ' ';
+    ordinaryKey(keyEl: string) {
         const caretPositionChange = 1;
-        this.insertEl(arrowEl, caretPositionChange);
+        this.insertEl(keyEl, caretPositionChange);
         this.triggerEvent(this.oninput);
     }
 
@@ -344,7 +314,9 @@ export class Keyboard {
     changeKeyCase() {
         for (const key of this.keys) {
             if (key.classList.contains("changeCase")) {
-                key.textContent = this.capsLockOn || this.shiftOn ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+                key.textContent = (this.capsLockOn && !this.shiftOn) || (this.shiftOn && !this.capsLockOn)
+                    ? key.textContent.toUpperCase()
+                    : key.textContent.toLowerCase();
             }
         }
     }
@@ -352,14 +324,13 @@ export class Keyboard {
     changeSpecialKeys() {
         for (const key of this.keys) {
             if (key.classList.contains("changeKey")) {
-                key.textContent = this.shiftOn 
-                ? SHIFT_CHANGED_SYMBOLS_ENG[SHIFT_CHANGE_SYMBOLS_ENG.indexOf(key.textContent)]
-                : SHIFT_CHANGE_SYMBOLS_ENG[SHIFT_CHANGED_SYMBOLS_ENG.indexOf(key.textContent)];
+                key.textContent = this.shiftOn
+                    ? SHIFT_CHANGED_SYMBOLS_ENG[SHIFT_CHANGE_SYMBOLS_ENG.indexOf(key.textContent)]
+                    : SHIFT_CHANGE_SYMBOLS_ENG[SHIFT_CHANGED_SYMBOLS_ENG.indexOf(key.textContent)];
             }
         }
     }
 
-    // SHIFT HANDLER
     toggleShift() {
         this.shiftOn = !this.shiftOn;
         this.changeKeyCase();
