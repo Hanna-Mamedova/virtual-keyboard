@@ -120,7 +120,7 @@ export class Keyboard {
                     });
                     break;
 
-                // !!! ADD EVENTLISTENER TO SHIFT!!!
+                // SHIFT READY
                 case "ShiftRight":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Shift", "ShiftRight");
 
@@ -224,7 +224,12 @@ export class Keyboard {
                     KEY.value = key.toLowerCase();
 
                     KEY_ELEMENT.textContent = KEY.value;
-                    KEY_ELEMENT.classList.add("changeCase");
+
+                    if (SHIFT_CHANGE_SYMBOLS_ENG.includes(KEY_ELEMENT.textContent)) {
+                        KEY_ELEMENT.classList.add("changeKey");
+                    } else {
+                        KEY_ELEMENT.classList.add("changeCase");
+                    }
 
                     KEY_ELEMENT.addEventListener("click", () => {
                         this.value += this.capsLockOn ? key.toUpperCase() : key.toLowerCase();
@@ -305,14 +310,6 @@ export class Keyboard {
         this.triggerEvent(this.oninput);
     }
 
-    // onShift() {
-    //     for (const key of this.keys) {
-    //         if (SHIFT_CHANGE_SYMBOLS.includes(key.textContent)) {
-    //             key.textContent = SHIFT_CHANGED_SYMBOLS[SHIFT_CHANGE_SYMBOLS.indexOf(key.textContent)];
-    //         }
-    //     }
-    // }
-
     // TEXTAREA/KEYBOARD ACTIONS
     insertEl(el: string, caretPositionChange: number) {
         const textarea = document.querySelector("textarea");
@@ -332,11 +329,21 @@ export class Keyboard {
         }
     }
 
+    changeSpecialKeys() {
+        for (const key of this.keys) {
+            if (key.classList.contains("changeKey")) {
+                key.textContent = this.shiftOn 
+                ? SHIFT_CHANGED_SYMBOLS_ENG[SHIFT_CHANGE_SYMBOLS_ENG.indexOf(key.textContent)]
+                : SHIFT_CHANGE_SYMBOLS_ENG[SHIFT_CHANGED_SYMBOLS_ENG.indexOf(key.textContent)];
+            }
+        }
+    }
+
     // SHIFT HANDLER
-    // TODO!!! - to FINISH
     toggleShift() {
         this.shiftOn = !this.shiftOn;
         this.changeKeyCase();
+        this.changeSpecialKeys();
     }
 
     switchLanguage() { }

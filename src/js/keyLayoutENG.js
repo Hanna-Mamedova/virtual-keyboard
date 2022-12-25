@@ -1,4 +1,4 @@
-export { keyLayoutENG, SHIFT_CHANGE_SYMBOLS, SHIFT_CHANGED_SYMBOLS}
+export { keyLayoutENG, SHIFT_CHANGE_SYMBOLS_ENG, SHIFT_CHANGED_SYMBOLS_ENG}
 
 const keyLayoutENG = [
     "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace",
@@ -8,6 +8,6 @@ const keyLayoutENG = [
     "CtrlLeft", "Win", "AltLeft", "Space", "AltRight", "left", "down", "right", "CtrlRight"
   ];
 
-  const SHIFT_CHANGE_SYMBOLS = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "[", "]", "\\", ";", "'", ",", ".", "/"];
-  const SHIFT_CHANGED_SYMBOLS = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?"];
+  const SHIFT_CHANGE_SYMBOLS_ENG = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "[", "]", "\\", ";", "'", ",", ".", "/"];
+  const SHIFT_CHANGED_SYMBOLS_ENG = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?"];
   

@@ -7,10 +7,8 @@ export class Key {
 
     constructor(value: string) {
         this.value = value;
-        this.shift = false;
     }
 
-    //Initialize a key
     init() {
         this.keyElement = document.createElement('button');
         this.keyElement.setAttribute("type", "button");
@@ -30,13 +28,5 @@ export class Key {
         this.keyElement.innerHTML = text;
         this.value = value;
     }
-
-    onShift() {
-        this.shift = !this.shift;
-        if (SHIFT_CHANGE_SYMBOLS_ENG.includes(this.value)) {
-            this.keyElement.textContent = SHIFT_CHANGED_SYMBOLS_ENG[SHIFT_CHANGE_SYMBOLS_ENG.indexOf(this.keyElement.textContent)];
-        }
-    }
-
 }
 
