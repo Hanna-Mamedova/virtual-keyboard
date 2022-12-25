@@ -38,7 +38,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: './js/index.js',
+        main: './js/index.ts',
     },
     output: {
         filename: '[name].[contenthash].js',
@@ -120,8 +120,12 @@ module.exports = {
                     plugins: ['@babel/plugin-transform-runtime']
                   },
                 }
-              }
-
+              },
+              {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+              },
         ]
     }
 

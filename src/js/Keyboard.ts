@@ -1,4 +1,4 @@
-import { keyLayoutENG, SHIFT_CHANGE_SYMBOLS, SHIFT_CHANGED_SYMBOLS } from "./keyLayoutENG";
+import { keyLayoutENG, SHIFT_CHANGE_SYMBOLS_ENG, SHIFT_CHANGED_SYMBOLS_ENG } from "./keyLayoutENG";
 import { keyLayoutRUS } from "./keyLayoutRUS";
 import { Key } from "./DefaultKey";
 
@@ -8,13 +8,19 @@ const LANGUAGE = {
 }
 
 export class Keyboard {
+    keys: NodeListOf<Element>;
+    value: string;
+    language: string;
+    keyLayout: string[];
+    capsLockOn: boolean;
+    shiftOn: boolean;
+    oninput = null;
+
     constructor() {
-        this.keys = [];
         this.value = '';
         this.language = LANGUAGE.eng;
-        this.keyLayout = [];
-        this.capsLock = false;
-        this.shift = false;
+        this.capsLockOn = false;
+        this.shiftOn = false;
         this.oninput = null;
     }
 
@@ -39,9 +45,9 @@ export class Keyboard {
         document.body.append(main);
 
         // Add use keyboard for elements
-        this.onInput('', function (currentValue) {
+        this.onInput('', function (currentValue: string) {
             console.log('currentValue', currentValue);
-            const textarea = document.querySelector("textarea");
+            const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
             textarea.value = currentValue;
             textarea.focus();
         });
@@ -220,7 +226,7 @@ export class Keyboard {
                     KEY_ELEMENT.classList.add("changeCase");
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value += this.capsLock ? key.toUpperCase() : key.toLowerCase();
+                        this.value += this.capsLockOn ? key.toUpperCase() : key.toLowerCase();
                         this.triggerEvent(this.oninput);
                     });
 
@@ -281,8 +287,8 @@ export class Keyboard {
 
     // READY
     capsLock(key) {
-        this.capsLock = !this.capsLock;
-        if (this.capsLock) {
+        this.capsLockOn = !this.capsLockOn;
+        if (this.capsLockOn) {
             key.isActive();
         } else {
             key.removeActive();
@@ -320,7 +326,7 @@ export class Keyboard {
     changeKeyCase() {
         for (const key of this.keys) {
             if (key.classList.contains("changeCase")) {
-                key.textContent = this.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+                key.textContent = this.capsLockOn | this.shiftOn ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
             }
         }
     }
@@ -328,8 +334,8 @@ export class Keyboard {
     // SHIFT HANDLER
     // TODO!!! - to FINISH
     toggleShift() {
-        this.shift = !this.shift;
-        this.capsLock();
+        this.shiftOn = !this.shiftOn;
+        this.changeKeyCase();
     }
 
     switchLanguage() { }

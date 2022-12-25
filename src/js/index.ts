@@ -41,3 +41,22 @@ function createTextarea() {
     TEXTAREA_CONTAINER.append(TEXTAREA)
     document.body.append(TEXTAREA_CONTAINER);
 }
+
+// window.addEventListener('keydown', (e) => {
+//     // console.log('Value: --', e);
+//     if (e.key == KEY.value || e.code == KEY.value) {
+//         KEY.isActive();
+//     }
+
+//     if(e.key == 'CapsLock') {
+//         this.toggleCapsLock();
+//         console.log('CAPSLOCK--', this.capsLock);
+//     }
+
+// })
+
+// window.addEventListener('keyup', () => {
+//     if (KEY_ELEMENT.classList.contains('keyboard__key--active')) {
+//         KEY.removeActive();
+//     }
+// })
