@@ -7,6 +7,8 @@ const LANGUAGE = {
     rus: 'rus',
 }
 
+const initialTextAreaValue = '';
+
 export class Keyboard {
     keys: NodeListOf<Element>;
     value: string;
@@ -14,14 +16,13 @@ export class Keyboard {
     keyLayout: string[];
     capsLockOn: boolean;
     shiftOn: boolean;
-    oninput = null;
+    oninput: (currentValue: string) => void;
 
     constructor() {
         this.value = '';
         this.language = LANGUAGE.eng;
         this.capsLockOn = false;
         this.shiftOn = false;
-        this.oninput = null;
     }
 
     // INITIALIZE KEYBOARD
@@ -45,7 +46,7 @@ export class Keyboard {
         document.body.append(main);
 
         // Add use keyboard for elements
-        this.onInput('', function (currentValue: string) {
+        this.onInput(initialTextAreaValue, (currentValue: string) => {
             console.log('currentValue', currentValue);
             const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
             textarea.value = currentValue;
@@ -246,14 +247,14 @@ export class Keyboard {
     }
 
     // TRIGGER EVENT
-    triggerEvent(handler) {
+    triggerEvent(handler: (currentValue: string) => void) {
         if (typeof handler == "function") {
             handler(this.value);
         }
     }
 
-    onInput(initialValue, currentValue) {
-        this.value = initialValue || "";
+    onInput(initialValue: string, currentValue: (currentValue: string) => void) {
+        this.value = initialValue || initialTextAreaValue;
         this.oninput = currentValue;
     }
 
@@ -286,7 +287,7 @@ export class Keyboard {
     }
 
     // READY
-    capsLock(key) {
+    capsLock(key: Key) {
         this.capsLockOn = !this.capsLockOn;
         if (this.capsLockOn) {
             key.isActive();
@@ -313,7 +314,7 @@ export class Keyboard {
     // }
 
     // TEXTAREA/KEYBOARD ACTIONS
-    insertEl(el, caretPositionChange) {
+    insertEl(el: string, caretPositionChange: number) {
         const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
         const arr = this.value.split('');
@@ -326,7 +327,7 @@ export class Keyboard {
     changeKeyCase() {
         for (const key of this.keys) {
             if (key.classList.contains("changeCase")) {
-                key.textContent = this.capsLockOn | this.shiftOn ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+                key.textContent = this.capsLockOn || this.shiftOn ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
             }
         }
     }

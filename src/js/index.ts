@@ -7,7 +7,7 @@ const KEYBOARD = new Keyboard();
 
 window.onload = () => {
     // TITLE
-    createTextNode('TITLE', 'h1', `VIRTUAL KEYBOARD`);
+    createTextNode('h1', `VIRTUAL KEYBOARD`);
 
     // TEXTAREA
     createTextarea();
@@ -16,13 +16,13 @@ window.onload = () => {
     KEYBOARD.init();
 
     // SUBTITLES
-    createTextNode('SUBTITLE', 'h3', `Keyboard created on Windows`);
-    createTextNode('LANGUAGE', 'h3', `For language switch: shift + alt`);
-    createTextNode('LANGUAGE_NOW', 'h3', `Language now:`);
+    createTextNode('h3', `Keyboard created on Windows`);
+    createTextNode('h3', `For language switch: shift + alt`);
+    createTextNode('h3', `Language now:`);
 }
 
-function createTextNode(node, element, text) {
-    node = document.createElement(element);
+function createTextNode(element: string, text: string) {
+    const node = document.createElement(element);
     node.innerHTML = text;
     document.body.append(node);
 }
