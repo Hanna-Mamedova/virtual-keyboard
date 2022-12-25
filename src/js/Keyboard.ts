@@ -7,6 +7,13 @@ const LANGUAGE = {
     rus: 'rus',
 }
 
+enum Arrows {
+    up = "&#9650",
+    down = "&#9660",
+    left = "&#9668",
+    right = "&#9658",
+}
+
 const initialTextAreaValue = '';
 
 export class Keyboard {
@@ -70,7 +77,7 @@ export class Keyboard {
 
             const KEY_ELEMENT = KEY.keyElement;
 
-            const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight", "&#9658;"].indexOf(key) !== -1;
+            const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight"].indexOf(key) !== -1;
 
             // Add styles and listeners to keys
             switch (key) {
@@ -145,29 +152,27 @@ export class Keyboard {
 
                     break;
 
-                // SPACE
+                // SPACE READY
                 case "Space":
                     KEY.createSpecialKey(["keyboard__key-space"], "", "Space");
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value += ' ';
-                        this.triggerEvent(this.oninput);
+                        this.space();
                     });
 
                     break;
 
                 // ADD HANDLERS TO ARROW KEYS
                 case "up":
-                    KEY.createSpecialKey(["keyboard__key-special"], "&#9650", "ArrowUp");
+                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.up, "ArrowUp");
 
                     KEY_ELEMENT.addEventListener("click", () => {
-                        // KEY_ELEMENT.value += " ";
                     });
 
                     break;
 
                 case "down":
-                    KEY.createSpecialKey(["keyboard__key-special"], "&#9660", "ArrowDown");
+                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.down, "ArrowDown");
 
                     KEY_ELEMENT.addEventListener("click", () => {
                         // KEY_ELEMENT.value += " ";
@@ -176,7 +181,7 @@ export class Keyboard {
                     break;
 
                 case "left":
-                    KEY.createSpecialKey(["keyboard__key-special"], "&#9668", "ArrowLeft");
+                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.left, "ArrowLeft");
 
                     KEY_ELEMENT.addEventListener("click", () => {
                         // KEY_ELEMENT.value += " ";
@@ -185,7 +190,7 @@ export class Keyboard {
                     break;
 
                 case "right":
-                    KEY.createSpecialKey(["keyboard__key-special"], "&#9658", "ArrowRight");
+                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.right, "ArrowRight");
 
                     KEY_ELEMENT.addEventListener("click", () => {
                         // KEY_ELEMENT.value += " ";
@@ -307,6 +312,21 @@ export class Keyboard {
         const enterEl = "\n";
         const caretPositionChange = 1;
         this.insertEl(enterEl, caretPositionChange);
+        this.triggerEvent(this.oninput);
+    }
+
+    //READY
+    space() {
+        const spaceEl = ' ';
+        const caretPositionChange = 1;
+        this.insertEl(spaceEl, caretPositionChange);
+        this.triggerEvent(this.oninput);
+    }
+
+    arrow() {
+        const arrowEl = ' ';
+        const caretPositionChange = 1;
+        this.insertEl(arrowEl, caretPositionChange);
         this.triggerEvent(this.oninput);
     }
 
