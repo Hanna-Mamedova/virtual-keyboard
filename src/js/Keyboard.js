@@ -41,7 +41,7 @@ export class Keyboard {
         // Add use keyboard for elements
         this.onInput('', function (currentValue) {
             console.log('currentValue', currentValue);
-            const textarea = document.querySelector("textarea"); 
+            const textarea = document.querySelector("textarea");
             textarea.value = currentValue;
             textarea.focus();
         });
@@ -64,7 +64,7 @@ export class Keyboard {
             const KEY_ELEMENT = KEY.keyElement;
 
             const INSERT_lINEBREAK = ["Backspace", "DEL", "ENTER", "ShiftRight", "&#9658;"].indexOf(key) !== -1;
-  
+
             // Add styles and listeners to keys
             switch (key) {
                 // BACKSPACE READY
@@ -97,15 +97,12 @@ export class Keyboard {
 
                     break;
 
-                // CAPS LOCK
+                // CAPS LOCK READY
                 case "Caps Lock":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Caps Lock", "CapsLock");
-
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.toggleCapsLock();
-                        console.log('PRESS', this.capsLock);
+                        this.toggleCapsLock(KEY);
                     });
-
                     break;
 
                 // ENTER
@@ -122,7 +119,7 @@ export class Keyboard {
                 // !!! ADD EVENTLISTENER TO SHIFT!!!
                 case "ShiftRight":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Shift", "ShiftRight");
-                    
+
                     KEY_ELEMENT.addEventListener("mousedown", () => {
                         this.toggleShift();
                     });
@@ -197,12 +194,12 @@ export class Keyboard {
                     KEY.createSpecialKey(["keyboard__key-special"], "ctrl", "ControlLeft");
 
                     break;
-                    
+
                 case "CtrlRight":
                     KEY.createSpecialKey(["keyboard__key-special"], "ctrl", "ControlRight");
 
                     break;
-                
+
                 // ALT
                 case "AltLeft":
                     KEY.createSpecialKey(["keyboard__key-special"], "alt", "AltLeft");
@@ -221,7 +218,7 @@ export class Keyboard {
                 // DEFAULT KEYS 
                 default:
                     KEY.value = key.toLowerCase();
-                    
+
                     KEY_ELEMENT.textContent = KEY.value;
                     KEY_ELEMENT.classList.add("changeCase");
 
@@ -233,7 +230,6 @@ export class Keyboard {
                     break;
             }
 
-
             // Add each keyElement to fragment
             FRAGMENT.append(KEY_ELEMENT);
 
@@ -241,13 +237,10 @@ export class Keyboard {
             if (INSERT_lINEBREAK) {
                 FRAGMENT.append(document.createElement("br"));
             }
-
         });
 
         return FRAGMENT;
     }
-
-
 
     // TRIGGER EVENT
     triggerEvent(handler) {
@@ -265,7 +258,7 @@ export class Keyboard {
 
     //READY
     deleteBackSpace() {
-        const textarea = document.querySelector("textarea"); 
+        const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
         this.value = this.value.slice(0, caretPosition - 1) + this.value.slice(caretPosition);
         this.triggerEvent(this.oninput);
@@ -274,7 +267,7 @@ export class Keyboard {
 
     //READY
     tab() {
-        const textarea = document.querySelector("textarea"); 
+        const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
         const arr = this.value.split('');
         arr.splice(caretPosition, 0, "    ");
@@ -285,7 +278,7 @@ export class Keyboard {
 
     //READY
     delDelete() {
-        const textarea = document.querySelector("textarea"); 
+        const textarea = document.querySelector("textarea");
         const caretPosition = textarea.selectionStart;
         this.value = this.value.slice(0, caretPosition) + this.value.slice(caretPosition + 1);
         this.triggerEvent(this.oninput);
@@ -308,15 +301,20 @@ export class Keyboard {
     //     }
     // }
 
-    // CAPSLOCK HANDLER
-    toggleCapsLock() {
+    // CAPSLOCK HANDLER READY
+    toggleCapsLock(key) {
         this.capsLock = !this.capsLock;
-        this.onChangeCase();
+        if (this.capsLock) {
+            key.isActive();
+        } else {
+            key.removeActive();
+        }
+        this.changeKeyCase();
     }
 
     // SHIFT HANDLER
     // TODO!!! - to FINISH
-    toggleShift() { 
+    toggleShift() {
         this.shift = !this.shift;
         this.toggleCapsLock();
     }
