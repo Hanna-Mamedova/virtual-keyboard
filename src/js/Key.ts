@@ -1,5 +1,3 @@
-import { SHIFT_CHANGE_SYMBOLS_ENG, SHIFT_CHANGED_SYMBOLS_ENG } from './keyLayoutENG'
-
 export class Key {
     keyElement: HTMLButtonElement;
     value: string;

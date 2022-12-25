@@ -1,6 +1,6 @@
 import { keyLayoutENG, SHIFT_CHANGE_SYMBOLS_ENG, SHIFT_CHANGED_SYMBOLS_ENG } from "./keyLayoutENG";
 import { keyLayoutRUS } from "./keyLayoutRUS";
-import { Key } from "./DefaultKey";
+import { Key } from "./Key";
 
 enum LANGUAGE {
     eng ='eng',
