@@ -77,7 +77,7 @@ export class Keyboard {
 
                     break;
 
-                // TAB
+                // TAB READY
                 case "Tab":
                     KEY.createSpecialKey(["keyboard__key-special"], "Tab", "Tab")
 
@@ -272,9 +272,15 @@ export class Keyboard {
         textarea.selectionEnd = caretPosition - 1;
     }
 
+    //READY
     tab() {
-        this.value += "    ";
+        const textarea = document.querySelector("textarea"); 
+        const caretPosition = textarea.selectionStart;
+        const arr = this.value.split('');
+        arr.splice(caretPosition, 0, "    ");
+        this.value = arr.join('');
         this.triggerEvent(this.oninput);
+        textarea.selectionEnd = caretPosition + 4;
     }
 
     //READY
