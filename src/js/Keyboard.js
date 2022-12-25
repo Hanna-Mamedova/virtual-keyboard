@@ -101,19 +101,16 @@ export class Keyboard {
                 case "Caps Lock":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "Caps Lock", "CapsLock");
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.toggleCapsLock(KEY);
+                        this.capsLock(KEY);
                     });
                     break;
 
-                // ENTER
+                // ENTER READY
                 case "Enter":
                     KEY.createSpecialKey(["keyboard__key-special-wide"], "ENTER", "Enter");
-
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.value += "\n";
-                        this.triggerEvent(this.oninput);
+                        this.enter();
                     });
-
                     break;
 
                 // !!! ADD EVENTLISTENER TO SHIFT!!!
@@ -267,13 +264,10 @@ export class Keyboard {
 
     //READY
     tab() {
-        const textarea = document.querySelector("textarea");
-        const caretPosition = textarea.selectionStart;
-        const arr = this.value.split('');
-        arr.splice(caretPosition, 0, "    ");
-        this.value = arr.join('');
+        const tabEl = "    ";
+        const caretPositionChange = 4;
+        this.insertEl(tabEl, caretPositionChange);
         this.triggerEvent(this.oninput);
-        textarea.selectionEnd = caretPosition + 4;
     }
 
     //READY
@@ -285,12 +279,23 @@ export class Keyboard {
         textarea.selectionEnd = caretPosition;
     }
 
-    changeKeyCase() {
-        for (const key of this.keys) {
-            if (key.classList.contains("changeCase")) {
-                key.textContent = this.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
-            }
+    // READY
+    capsLock(key) {
+        this.capsLock = !this.capsLock;
+        if (this.capsLock) {
+            key.isActive();
+        } else {
+            key.removeActive();
         }
+        this.changeKeyCase();
+    }
+
+    //READY
+    enter() {
+        const enterEl = "\n";
+        const caretPositionChange = 1;
+        this.insertEl(enterEl, caretPositionChange);
+        this.triggerEvent(this.oninput);
     }
 
     // onShift() {
@@ -301,22 +306,30 @@ export class Keyboard {
     //     }
     // }
 
-    // CAPSLOCK HANDLER READY
-    toggleCapsLock(key) {
-        this.capsLock = !this.capsLock;
-        if (this.capsLock) {
-            key.isActive();
-        } else {
-            key.removeActive();
+    // TEXTAREA/KEYBOARD ACTIONS
+    insertEl(el, caretPositionChange) {
+        const textarea = document.querySelector("textarea");
+        const caretPosition = textarea.selectionStart;
+        const arr = this.value.split('');
+        arr.splice(caretPosition, 0, el);
+        this.value = arr.join('');
+        this.triggerEvent(this.oninput);
+        textarea.selectionEnd = caretPosition + caretPositionChange;
+    }
+
+    changeKeyCase() {
+        for (const key of this.keys) {
+            if (key.classList.contains("changeCase")) {
+                key.textContent = this.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+            }
         }
-        this.changeKeyCase();
     }
 
     // SHIFT HANDLER
     // TODO!!! - to FINISH
     toggleShift() {
         this.shift = !this.shift;
-        this.toggleCapsLock();
+        this.capsLock();
     }
 
     switchLanguage() { }
