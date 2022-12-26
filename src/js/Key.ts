@@ -24,6 +24,7 @@ export class Key {
     createSpecialKey(classes: string[], text: string, value: string) {
         this.keyElement.classList.add(...classes);
         this.keyElement.innerHTML = text;
+        this.keyElement.setAttribute('value', value);
         this.value = value;
     }
 }
