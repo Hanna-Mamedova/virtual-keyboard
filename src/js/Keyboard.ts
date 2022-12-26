@@ -109,9 +109,9 @@ export class Keyboard {
                     break;
 
                 case "Caps Lock":
-                    KEY.createSpecialKey(["keyboard__key-special-wide"], "Caps Lock", "CapsLock");
+                    KEY.createSpecialKey(["keyboard__key-special-wide", "CapsLock"], "Caps Lock", "CapsLock");
                     KEY_ELEMENT.addEventListener("click", () => {
-                        this.capsLock(KEY);
+                        this.capsLock();
                     });
                     break;
 
@@ -270,12 +270,13 @@ export class Keyboard {
         textarea.selectionEnd = caretPosition;
     }
 
-    capsLock(key: Key) {
+    capsLock() {
         this.capsLockOn = !this.capsLockOn;
+        const capsLock = document.querySelector('.CapsLock');
         if (this.capsLockOn) {
-            key.isActive();
+            capsLock.classList.add('keyboard__key--active');
         } else {
-            key.removeActive();
+            capsLock.classList.remove('keyboard__key--active');
         }
         this.changeKeyCase();
     }

@@ -53,4 +53,8 @@ window.addEventListener('keyup', (e) => {
 
     const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
     KEYBOARD.value = textarea.value;
+
+    if (e.code === "CapsLock") {
+        KEYBOARD.capsLock();
+    }
 })

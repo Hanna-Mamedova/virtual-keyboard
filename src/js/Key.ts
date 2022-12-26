@@ -13,14 +13,6 @@ export class Key {
         this.keyElement.classList.add("keyboard__key");
     }
 
-    isActive() {
-        this.keyElement.classList.add('keyboard__key--active');
-    }
-
-    removeActive() {
-        this.keyElement.classList.remove('keyboard__key--active');
-    }
-
     createSpecialKey(classes: string[], text: string, value: string) {
         this.keyElement.classList.add(...classes);
         this.keyElement.innerHTML = text;
