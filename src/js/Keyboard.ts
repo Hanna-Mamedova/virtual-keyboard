@@ -200,7 +200,7 @@ export class Keyboard {
                     break;
 
                 case "Win":
-                    KEY.createSpecialKey(["keyboard__key-special"], "win", "Meta");
+                    KEY.createSpecialKey(["keyboard__key-special"], "win", "MetaLeft");
                     break;
 
                 default:
