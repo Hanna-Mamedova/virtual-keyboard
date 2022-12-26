@@ -337,6 +337,36 @@ export class Keyboard {
         this.changeSpecialKeys();
     }
 
+    highlightKey(pressedKey: string, pressedKeyCode: string) {
+        for (const key of this.keys) {
+            // console.log(key);
+
+            if (
+                (key.getAttribute("value") === pressedKeyCode) ||
+                (key.textContent === ("`" || "ё") && pressedKeyCode === "Backquote") ||
+                (key.textContent === ("'" || "э") && pressedKeyCode === "Quote") ||
+                (key.textContent === pressedKey) ||
+                (key.textContent === pressedKeyCode)
+            ) key.classList.add('keyboard__key--active');
+            
+        }
+    }
+
+    removeKeyHighlight(pressedKey: string, pressedKeyCode: string) {
+        for (const key of this.keys) {
+            // console.log('html', key.textContent);
+            
+            if (
+                (key.getAttribute("value") === pressedKeyCode) ||
+                (key.textContent === ("`" || "ё") && pressedKeyCode === "Backquote") ||
+                (key.textContent === ("'" || "э") && pressedKeyCode === "Quote") ||
+                (key.textContent === pressedKey) ||
+                (key.textContent === pressedKeyCode)
+            ) key.classList.remove('keyboard__key--active');
+    
+        }
+    }
+
     switchLanguage() { }
 
 }
