@@ -368,6 +368,19 @@ export class Keyboard {
         }
     }
 
-    switchLanguage() { }
+    switchLanguage() {   
+        console.log(this.keyLayout);     
+        if (this.language === LANGUAGE.eng) {
+            this.language = LANGUAGE.rus;
+        } else {
+            this.language = LANGUAGE.eng;
+        };
+        this.keyLayout = this.language === LANGUAGE.rus ? keyLayoutRUS : keyLayoutENG;
+
+        const keyContainer = document.querySelector(".keyboard__keys");
+        keyContainer.innerHTML = '';
+        keyContainer.append(this.createKeys());
+    }
+
 
 }

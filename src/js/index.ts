@@ -3,6 +3,12 @@ import '../scss/style.scss';
 
 import { Keyboard } from './Keyboard';
 
+interface KeysPressed {
+    [index: string]: boolean;
+}; 
+
+let keysPressed: KeysPressed = {};
+
 const KEYBOARD = new Keyboard();
 
 window.onload = () => {
@@ -18,7 +24,7 @@ window.onload = () => {
     // SUBTITLES
     createTextNode('h3', `Keyboard created on Windows`);
     createTextNode('h3', `For language switch: shift + alt`);
-    createTextNode('h3', `Language now:`);
+    createTextNode('h3', `Language now: ${KEYBOARD.language}`);
 }
 
 function createTextNode(element: string, text: string) {
@@ -58,6 +64,14 @@ window.addEventListener('keydown', (e) => {
             e.preventDefault();
             break;
     }
+
+    if (e.code === "ShiftLeft") {
+        keysPressed[e.code] = true;
+    }
+
+    if (keysPressed['ShiftLeft'] && e.code === 'AltLeft') {
+        KEYBOARD.switchLanguage();
+    }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -65,6 +79,10 @@ window.addEventListener('keyup', (e) => {
 
     const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
     KEYBOARD.value = textarea.value;
+
+    if (e.code === "ShiftLeft") {
+       delete keysPressed[e.code];
+    }
 
     switch (e.code) {
         case "CapsLock":
@@ -84,5 +102,6 @@ window.addEventListener('keyup', (e) => {
             const pressedKey = document.querySelector(`.${e.code}`);
             KEYBOARD.ordinaryKey(pressedKey.textContent);
             break;
-    }
+    };
+
 })
