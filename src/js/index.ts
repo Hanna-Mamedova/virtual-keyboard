@@ -50,4 +50,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     KEYBOARD.removeKeyHighlight(e.key, e.code);
+
+    const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
+    KEYBOARD.value = textarea.value;
 })
