@@ -11,7 +11,7 @@ window.onload = () => {
 
     // TEXTAREA
     createTextarea();
-    
+
     // KEYBOARD
     KEYBOARD.init();
 
@@ -46,7 +46,19 @@ window.addEventListener('keydown', (e) => {
     // console.log('key: --', e.key);
     // console.log('code: --', e.code);
     KEYBOARD.highlightKey(e.key, e.code);
-})
+
+    switch (e.key) {
+        case "Shift":
+            KEYBOARD.toggleShift();
+            break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+            e.preventDefault();
+            break;
+    }
+});
 
 window.addEventListener('keyup', (e) => {
     KEYBOARD.removeKeyHighlight(e.key, e.code);
@@ -54,7 +66,23 @@ window.addEventListener('keyup', (e) => {
     const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
     KEYBOARD.value = textarea.value;
 
-    if (e.code === "CapsLock") {
-        KEYBOARD.capsLock();
+    switch (e.code) {
+        case "CapsLock":
+            KEYBOARD.capsLock();
+            break;
+        case "Tab":
+            KEYBOARD.tab();
+            break;
+        case "ShiftRight":
+        case "ShiftLeft":
+            KEYBOARD.toggleShift();
+            break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+            const pressedKey = document.querySelector(`.${e.code}`);
+            KEYBOARD.ordinaryKey(pressedKey.textContent);
+            break;
     }
 })

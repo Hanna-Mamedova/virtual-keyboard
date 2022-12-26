@@ -156,28 +156,28 @@ export class Keyboard {
                     break;
 
                 case "up":
-                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.up, "ArrowUp");
+                    KEY.createSpecialKey(["keyboard__key-special", "ArrowUp"], Arrows.up, "ArrowUp");
                     KEY_ELEMENT.addEventListener("click", () => {
                         this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
                     break;
 
                 case "down":
-                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.down, "ArrowDown");
+                    KEY.createSpecialKey(["keyboard__key-special", "ArrowDown"], Arrows.down, "ArrowDown");
                     KEY_ELEMENT.addEventListener("click", () => {
                         this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
                     break;
 
                 case "left":
-                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.left, "ArrowLeft");
+                    KEY.createSpecialKey(["keyboard__key-special", "ArrowLeft"], Arrows.left, "ArrowLeft");
                     KEY_ELEMENT.addEventListener("click", () => {
                         this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
                     break;
 
                 case "right":
-                    KEY.createSpecialKey(["keyboard__key-special"], Arrows.right, "ArrowRight");
+                    KEY.createSpecialKey(["keyboard__key-special", "ArrowRight"], Arrows.right, "ArrowRight");
                     KEY_ELEMENT.addEventListener("click", () => {
                         this.ordinaryKey(KEY.keyElement.innerHTML);
                     });
