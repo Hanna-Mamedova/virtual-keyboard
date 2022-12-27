@@ -27,7 +27,7 @@ export class Keyboard {
 
     constructor() {
         this.value = '';
-        this.language = LANGUAGE.eng;
+        this.language = localStorage.getItem('lang') || LANGUAGE.eng;
         this.capsLockOn = false;
         this.shiftOn = false;
     }
@@ -65,6 +65,7 @@ export class Keyboard {
         const FRAGMENT = document.createDocumentFragment();
 
         // Check language to choose correct keyLayout
+        if (this.language) localStorage.setItem('lang', this.language);
         this.keyLayout = this.language === LANGUAGE.rus ? keyLayoutRUS : keyLayoutENG;
 
         // Looping the keylayout
@@ -371,6 +372,8 @@ export class Keyboard {
         } else {
             this.language = LANGUAGE.eng;
         };
+
+        localStorage.setItem('lang', this.language);
 
         const keysContainer = document.querySelector(".keyboard__keys");
         keysContainer.innerHTML = '';
