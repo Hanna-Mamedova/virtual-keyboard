@@ -23,13 +23,14 @@ window.onload = () => {
 
     // SUBTITLES
     createTextNode('h3', `Keyboard created on Windows`);
-    createTextNode('h3', `For language switch: shift + alt`);
-    createTextNode('h3', `Language now: ${KEYBOARD.language}`);
+    createTextNode('h3', `For language switch: ctrlLeft + altLeft`);
+    createTextNode('h3', `Language now: ${KEYBOARD.language}`, 'lang');
 }
 
-function createTextNode(element: string, text: string) {
+function createTextNode(element: string, text: string, id?: string) {
     const node = document.createElement(element);
     node.innerHTML = text;
+    node.setAttribute('id', id);
     document.body.append(node);
 }
 
@@ -49,8 +50,9 @@ function createTextarea() {
 }
 
 window.addEventListener('keydown', (e) => {
-    // console.log('key: --', e.key);
-    // console.log('code: --', e.code);
+    console.log('key: --', e.key);
+    console.log('code: --', e.code);
+
     KEYBOARD.highlightKey(e.key, e.code);
 
     switch (e.key) {
@@ -65,20 +67,22 @@ window.addEventListener('keydown', (e) => {
             break;
     }
 
-    if (e.code === "ShiftLeft") {
+    if (e.code === "ControlLeft") {
         keysPressed[e.code] = true;
     }
 
-    if (keysPressed['ShiftLeft'] && e.code === 'AltLeft') {
+    if (keysPressed['ControlLeft'] && e.code === 'AltLeft') {
         KEYBOARD.switchLanguage();
+        const lang = document.getElementById('lang');
+        lang.innerText = `Language now: ${KEYBOARD.language}`;
     }
 });
 
 window.addEventListener('keyup', (e) => {
-    KEYBOARD.removeKeyHighlight(e.key, e.code);
-
     const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
     KEYBOARD.value = textarea.value;
+
+    KEYBOARD.removeKeyHighlight(e.key, e.code);
 
     if (e.code === "ShiftLeft") {
        delete keysPressed[e.code];
@@ -103,5 +107,4 @@ window.addEventListener('keyup', (e) => {
             KEYBOARD.ordinaryKey(pressedKey.textContent);
             break;
     };
-
 })

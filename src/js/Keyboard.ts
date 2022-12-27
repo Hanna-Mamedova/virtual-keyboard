@@ -3,8 +3,8 @@ import { keyLayoutRUS } from "./keyLayoutRUS";
 import { Key } from "./Key";
 
 enum LANGUAGE {
-    eng ='eng',
-    rus ='rus',
+    eng = 'eng',
+    rus = 'rus',
 }
 
 enum Arrows {
@@ -206,7 +206,7 @@ export class Keyboard {
                 default:
                     KEY.value = key.toLowerCase();
 
-                    KEY_ELEMENT.textContent = KEY.value;
+                    KEY_ELEMENT.textContent = KEY.value;                    
 
                     if (SHIFT_CHANGE_SYMBOLS_ENG.includes(KEY_ELEMENT.textContent)) {
                         KEY_ELEMENT.classList.add("changeKey");
@@ -340,23 +340,24 @@ export class Keyboard {
 
     highlightKey(pressedKey: string, pressedKeyCode: string) {
         for (const key of this.keys) {
-            // console.log(key);
-
             if (
                 (key.getAttribute("value") === pressedKeyCode) ||
                 (key.textContent === ("`" || "ё") && pressedKeyCode === "Backquote") ||
                 (key.textContent === ("'" || "э") && pressedKeyCode === "Quote") ||
                 (key.textContent === pressedKey) ||
                 (key.textContent === pressedKeyCode)
-            ) key.classList.add('keyboard__key--active');
-            
+            ) {
+                console.log('key.textContent', key.textContent);
+                console.log('pressedKey', pressedKey);
+                
+                key.classList.add('keyboard__key--active')
+            };
+
         }
     }
 
     removeKeyHighlight(pressedKey: string, pressedKeyCode: string) {
         for (const key of this.keys) {
-            // console.log('html', key.textContent);
-            
             if (
                 (key.getAttribute("value") === pressedKeyCode) ||
                 (key.textContent === ("`" || "ё") && pressedKeyCode === "Backquote") ||
@@ -364,23 +365,20 @@ export class Keyboard {
                 (key.textContent === pressedKey) ||
                 (key.textContent === pressedKeyCode)
             ) key.classList.remove('keyboard__key--active');
-    
+
         }
     }
 
-    switchLanguage() {   
-        console.log(this.keyLayout);     
+    switchLanguage() {
         if (this.language === LANGUAGE.eng) {
             this.language = LANGUAGE.rus;
         } else {
             this.language = LANGUAGE.eng;
         };
-        this.keyLayout = this.language === LANGUAGE.rus ? keyLayoutRUS : keyLayoutENG;
 
-        const keyContainer = document.querySelector(".keyboard__keys");
-        keyContainer.innerHTML = '';
-        keyContainer.append(this.createKeys());
+        const keysContainer = document.querySelector(".keyboard__keys");
+        keysContainer.innerHTML = '';
+        keysContainer.append(this.createKeys());
+        this.keys = keysContainer.querySelectorAll(".keyboard__key");
     }
-
-
 }
