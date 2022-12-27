@@ -1,8 +1,10 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
+const ESLintPlugin = require('eslint-webpack-plugin')
 const TerserWebpackPlugin = require("terser-webpack-plugin")
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -66,6 +68,7 @@ module.exports = {
             }
         }),
         new CleanWebpackPlugin(),
+        new ESLintPlugin({extensions: ['ts', 'js']}),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         }),
