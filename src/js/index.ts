@@ -10,9 +10,9 @@ enum TextareaSizes {
 
 interface KeysPressed {
     [index: string]: boolean;
-}; 
+} 
 
-let keysPressed: KeysPressed = {};
+const keysPressed: KeysPressed = {};
 
 const KEYBOARD = new Keyboard();
 
@@ -82,6 +82,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
+    const pressedKey = document.querySelector(`.${e.code}`);
     KEYBOARD.value = textarea.value;
 
     KEYBOARD.removeKeyHighlight(e.key, e.code);
@@ -105,8 +106,7 @@ window.addEventListener('keyup', (e) => {
         case "ArrowDown":
         case "ArrowLeft":
         case "ArrowRight":
-            const pressedKey = document.querySelector(`.${e.code}`);
             KEYBOARD.ordinaryKey(pressedKey.textContent);
             break;
-    };
+    }
 })

@@ -348,7 +348,7 @@ export class Keyboard {
                 (key.textContent === pressedKeyCode)
             ) {                
                 key.classList.add('keyboard__key--active')
-            };
+            }
 
         }
     }
@@ -371,7 +371,7 @@ export class Keyboard {
             this.language = LANGUAGE.rus;
         } else {
             this.language = LANGUAGE.eng;
-        };
+        }
 
         localStorage.setItem('lang', this.language);
 
