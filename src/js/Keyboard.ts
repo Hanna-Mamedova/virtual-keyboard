@@ -54,7 +54,6 @@ export class Keyboard {
 
         // Add use keyboard for elements
         this.onInput(initialTextAreaValue, (currentValue: string) => {
-            console.log('currentValue', currentValue);
             const textarea = document.querySelector("textarea") as HTMLTextAreaElement;
             textarea.value = currentValue;
             textarea.focus();
@@ -346,10 +345,7 @@ export class Keyboard {
                 (key.textContent === ("'" || "э") && pressedKeyCode === "Quote") ||
                 (key.textContent === pressedKey) ||
                 (key.textContent === pressedKeyCode)
-            ) {
-                console.log('key.textContent', key.textContent);
-                console.log('pressedKey', pressedKey);
-                
+            ) {                
                 key.classList.add('keyboard__key--active')
             };
 
